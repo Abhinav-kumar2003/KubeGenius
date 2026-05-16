@@ -193,8 +193,8 @@ This project is designed to showcase expertise for:
 
 ```bash
 # Clone the repository
-git clone https://github.com/kubegenius/kubegenius.git
-cd kubegenius
+git clone https://github.com/Abhinav-kumar2003/KubeGenius.git
+cd KubeGenius
 
 # Start all services
 docker-compose up -d
@@ -448,26 +448,11 @@ kubegenius/
 │   ├── app/
 │   │   ├── api/v1/endpoints/ # API routes
 │   │   ├── core/             # Config, security, DB
-│   │   ├── models/           # SQLAlchemy models
-│   │   ├── services/         # Business logic
-│   │   └── main.py           # Entry point
-│   ├── requirements.txt
-│   └── Dockerfile
 ├── ml-engine/                 # TensorFlow LSTM model
-│   ├── models/               # LSTM predictor
-│   ├── training/             # Training pipeline
-│   ├── prediction/           # Inference service
-│   └── Dockerfile
 ├── kubernetes/               # K8s manifests
-│   └── base/
 ├── helm/                     # Helm charts
-│   └── k8s-autoscaler/
 ├── terraform/                # AWS infrastructure
-│   ├── main.tf
-│   └── variables.tf
 ├── monitoring/               # Prometheus + Grafana
-│   ├── prometheus/
-│   └── grafana/
 ├── .github/workflows/        # CI/CD
 ├── docker-compose.yml
 └── README.md
@@ -507,5 +492,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   <br>
   <a href="https://kubegenius.ai">kubegenius.ai</a> | 
   <a href="https://docs.kubegenius.ai">Documentation</a> | 
-  <a href="https://github.com/kubegenius">GitHub</a>
+  <a href="https://github.com/Abhinav-kumar2003/KubeGenius">GitHub</a>
 </p>
