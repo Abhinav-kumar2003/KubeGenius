@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubegenius-ml-engine
+  namespace: kubegenius
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml-engine
+  template:
+    metadata:
+      labels:
+        app: ml-engine
+    spec:
+      serviceAccountName: kubegenius
+      containers:
+        - name: ml-engine
+          image: kubegenius/ml-engine:3.1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PROMETHEUS_URL
+              value: "http://prometheus.monitoring:9090"
+            - name: MODEL_PATH
+              value: "/app/models"
+            - name: TRAINING_INTERVAL_HOURS
+              value: "6"
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
+          volumeMounts:
+            - name: models
+              mountPath: /app/models
+          livenessProbe:
+            exec:
+              command:
+                - python
+                - -c
+                - "import sys; sys.exit(0)"
+            initialDelaySeconds: 60
+            periodSeconds: 60
+      volumes:
+        - name: models
+          persistentVolumeClaim:
+            claimName: kubegenius-models
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ml-engine
+  namespace: kubegenius
+spec:
+  selector:
+    app: ml-engine
+  ports:
+    - port: 5000
+      targetPort: 5000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kubegenius-models
+  namespace: kubegenius
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: gp3

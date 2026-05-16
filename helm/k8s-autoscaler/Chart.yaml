@@ -1,0 +1,39 @@
+apiVersion: v2
+name: kubegenius
+description: AI-Powered Kubernetes Predictive Autoscaler Platform
+type: application
+version: 3.1.0
+appVersion: "3.1.0"
+keywords:
+  - kubernetes
+  - autoscaler
+  - machine-learning
+  - prediction
+  - monitoring
+home: https://kubegenius.ai
+sources:
+  - https://github.com/kubegenius/kubegenius
+maintainers:
+  - name: KubeGenius Team
+    email: team@kubegenius.ai
+dependencies:
+  - name: postgresql
+    version: 13.2.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: redis
+    version: 18.5.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+  - name: prometheus
+    version: 25.8.0
+    repository: https://prometheus-community.github.io/helm-charts
+    condition: prometheus.enabled
+  - name: grafana
+    version: 7.0.0
+    repository: https://grafana.github.io/helm-charts
+    condition: grafana.enabled
+  - name: ingress-nginx
+    version: 4.8.3
+    repository: https://kubernetes.github.io/ingress-nginx
+    condition: ingress.enabled
