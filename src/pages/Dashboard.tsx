@@ -68,13 +68,13 @@ export default function Dashboard() {
   useEffect(() => {
     if (liveMetrics) {
       setStats({
-        cpu: liveMetrics.cpu ?? stats.cpu,
-        memory: liveMetrics.memory ?? stats.memory,
-        pods: liveMetrics.pods ?? stats.pods,
-        nodes: liveMetrics.nodes ?? stats.nodes,
-        cpuChange: liveMetrics.cpu_change ?? stats.cpuChange,
-        memChange: liveMetrics.mem_change ?? stats.memChange,
-        podChange: liveMetrics.pod_change ?? stats.podChange
+        cpu: liveMetrics.cluster?.cpu_percent ?? liveMetrics.cpu ?? stats.cpu,
+        memory: liveMetrics.cluster?.memory_percent ?? liveMetrics.memory ?? stats.memory,
+        pods: liveMetrics.cluster?.pod_count ?? liveMetrics.pods ?? stats.pods,
+        nodes: liveMetrics.cluster?.node_count ?? (Array.isArray(liveMetrics.nodes) ? liveMetrics.nodes.length : (liveMetrics.nodes ?? stats.nodes)),
+        cpuChange: liveMetrics.cluster?.cpu_change ?? liveMetrics.cpu_change ?? stats.cpuChange,
+        memChange: liveMetrics.cluster?.mem_change ?? liveMetrics.mem_change ?? stats.memChange,
+        podChange: liveMetrics.cluster?.pod_change ?? liveMetrics.pod_change ?? stats.podChange
       });
 
       if (liveMetrics.cpu_series) setCpuData(liveMetrics.cpu_series);
