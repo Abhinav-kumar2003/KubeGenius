@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const WS_BASE_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws';
+const WS_BASE_URL = import.meta.env.VITE_WS_URL || 'ws://127.0.0.1:8000/ws';
 
 export function useWebSocket<T>(path: string) {
   const [data, setData] = useState<T | null>(null);

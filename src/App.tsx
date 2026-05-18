@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAuth, SignedIn, SignedOut } from '@clerk/clerk-react';
 import Sidebar from '@/components/Sidebar';
@@ -67,7 +67,7 @@ export default function App() {
           <Routes location={location} key={location.pathname}>
             <Route path="/sign-in/*" element={<Login mode="signin" />} />
             <Route path="/sign-up/*" element={<Login mode="signup" />} />
-            <Route path="*" element={<Login mode="signin" />} />
+            <Route path="*" element={<Navigate to="/sign-in" replace />} />
           </Routes>
         </AnimatePresence>
       </SignedOut>
