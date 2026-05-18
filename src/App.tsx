@@ -65,9 +65,10 @@ export default function App() {
       <SignedOut>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
-            <Route path="/sign-in/*" element={<Login mode="signin" />} />
-            <Route path="/sign-up/*" element={<Login mode="signup" />} />
-            <Route path="*" element={<Navigate to="/sign-in" replace />} />
+            <Route path="/sign-in/*" element={<Login mode="signin" path="/sign-in" />} />
+            <Route path="/sign-up/*" element={<Login mode="signup" path="/sign-up" />} />
+            <Route path="/" element={<Login mode="signin" path="/" />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
       </SignedOut>

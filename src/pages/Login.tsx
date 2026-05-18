@@ -5,9 +5,10 @@ import { dark } from '@clerk/themes';
 
 interface LoginProps {
   mode?: 'signin' | 'signup';
+  path?: string;
 }
 
-export default function Login({ mode = 'signin' }: LoginProps) {
+export default function Login({ mode = 'signin', path }: LoginProps) {
   return (
     <div className="min-h-screen bg-[#0C0E14] flex">
       {/* Left Panel */}
@@ -69,7 +70,7 @@ export default function Login({ mode = 'signin' }: LoginProps) {
           {mode === 'signin' ? (
             <SignIn
               routing="path"
-              path="/sign-in"
+              path={path || "/sign-in"}
               signUpUrl="/sign-up"
               forceRedirectUrl="/"
               appearance={{
@@ -100,7 +101,7 @@ export default function Login({ mode = 'signin' }: LoginProps) {
           ) : (
             <SignUp
               routing="path"
-              path="/sign-up"
+              path={path || "/sign-up"}
               signInUrl="/sign-in"
               forceRedirectUrl="/"
               appearance={{

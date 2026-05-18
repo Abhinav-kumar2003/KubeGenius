@@ -25,7 +25,7 @@ export default function ClerkAuthSync() {
         useAuthStore.setState({
           user: {
             id: userId,
-            name: user.fullName || user.username || user.primaryEmailAddress?.emailAddress.split('@')[0] || 'User',
+            name: user.fullName || user.username || user.primaryEmailAddress?.emailAddress?.split('@')[0] || 'User',
             email: user.primaryEmailAddress?.emailAddress || '',
             role: 'admin', // default role
             avatar: user.imageUrl,
