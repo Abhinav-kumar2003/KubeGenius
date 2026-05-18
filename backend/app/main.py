@@ -135,6 +135,36 @@ async def events_websocket(websocket: WebSocket):
         ws_manager.disconnect(websocket, "events")
 
 
+@app.websocket("/ws/ml")
+async def ml_websocket(websocket: WebSocket):
+    """Real-time ML predictions WebSocket endpoint."""
+    await ws_manager.connect(websocket, "ml")
+    try:
+        while True:
+            # Send mock ML predictions data to keep the UI updating
+            await ws_manager.broadcast_to_group("ml", {
+                "type": "ml_update",
+                "timestamp": datetime.utcnow().isoformat(),
+                "data": {
+                    "metrics": {
+                        "accuracy": 94.2,
+                        "mae": 1.1,
+                        "rmse": 1.5,
+                        "predictionsToday": 2150,
+                        "truePositives": 1890,
+                        "falsePositives": 32,
+                        "lastTraining": datetime.utcnow().isoformat()
+                    }
+                }
+            })
+            await asyncio.sleep(15)
+    except WebSocketDisconnect:
+        ws_manager.disconnect(websocket, "ml")
+    except Exception as e:
+        logger.error("WebSocket error", error=str(e))
+        ws_manager.disconnect(websocket, "ml")
+
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request, exc):
     """Global exception handler."""

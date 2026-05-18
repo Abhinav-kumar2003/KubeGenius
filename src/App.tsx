@@ -65,10 +65,11 @@ export default function App() {
       <SignedOut>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
-            <Route path="/sign-in/*" element={<Login mode="signin" path="/sign-in" />} />
-            <Route path="/sign-up/*" element={<Login mode="signup" path="/sign-up" />} />
+            <Route path="/sign-in" element={<Login mode="signin" path="/sign-in" />} />
+            <Route path="/sign-up" element={<Login mode="signup" path="/sign-up" />} />
             <Route path="/" element={<Login mode="signin" path="/" />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            {/* Catch-all: redirect any unknown path to sign-in when not authenticated */}
+            <Route path="*" element={<Navigate to="/sign-in" replace />} />
           </Routes>
         </AnimatePresence>
       </SignedOut>

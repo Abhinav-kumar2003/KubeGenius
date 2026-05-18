@@ -75,12 +75,12 @@ export default function Predictions() {
       {/* ML Metrics */}
       <div className="grid grid-cols-6 gap-4">
         {[
-          { label: 'Accuracy', value: `${metrics.accuracy}%`, icon: Target, color: 'text-green-400' },
-          { label: 'MAE', value: metrics.mae, icon: BarChart3, color: 'text-blue-400' },
-          { label: 'RMSE', value: metrics.rmse, icon: Activity, color: 'text-amber-400' },
-          { label: 'Predictions Today', value: metrics.predictionsToday.toLocaleString(), icon: TrendingUp, color: 'text-purple-400' },
-          { label: 'True Positives', value: metrics.truePositives, icon: CheckCircle, color: 'text-green-400' },
-          { label: 'False Positives', value: metrics.falsePositives, icon: AlertTriangle, color: 'text-red-400' },
+          { label: 'Accuracy', value: metrics?.accuracy != null ? `${metrics.accuracy}%` : '–', icon: Target, color: 'text-green-400' },
+          { label: 'MAE', value: metrics?.mae ?? '–', icon: BarChart3, color: 'text-blue-400' },
+          { label: 'RMSE', value: metrics?.rmse ?? '–', icon: Activity, color: 'text-amber-400' },
+          { label: 'Predictions Today', value: metrics?.predictionsToday != null ? metrics.predictionsToday.toLocaleString() : '–', icon: TrendingUp, color: 'text-purple-400' },
+          { label: 'True Positives', value: metrics?.truePositives ?? '–', icon: CheckCircle, color: 'text-green-400' },
+          { label: 'False Positives', value: metrics?.falsePositives ?? '–', icon: AlertTriangle, color: 'text-red-400' },
         ].map((m, i) => (
           <motion.div
             key={m.label}
@@ -158,7 +158,7 @@ export default function Predictions() {
           className="metric-card rounded-xl p-5"
         >
           <h3 className="text-[13px] font-medium text-white/70 mb-1">Model Performance</h3>
-          <p className="text-[11px] text-white/30 mb-4">Last training: {new Date(metrics.lastTraining).toLocaleString()}</p>
+          <p className="text-[11px] text-white/30 mb-4">Last training: {metrics?.lastTraining ? new Date(metrics.lastTraining).toLocaleString() : '–'}</p>
           <div className="h-[240px]">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={radarData}>
