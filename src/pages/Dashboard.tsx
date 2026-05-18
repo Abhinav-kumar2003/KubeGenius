@@ -46,6 +46,7 @@ function MetricCard({ title, value, unit, change, changeType, icon: Icon, delay 
 
 export default function Dashboard() {
   // 1. WebSocket Hook for real-time metrics
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: liveMetrics, isConnected } = useWebSocket<any>('/metrics');
   
   // 2. Data State
@@ -80,6 +81,7 @@ export default function Dashboard() {
       if (liveMetrics.memory_series) setMemoryData(liveMetrics.memory_series);
       if (liveMetrics.prediction_series) setPredictionData(liveMetrics.prediction_series);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liveMetrics]);
 
   // 4. Initial fetch from REST API

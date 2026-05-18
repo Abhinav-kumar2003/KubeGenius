@@ -44,7 +44,7 @@ export function useWebSocket<T>(path: string) {
     };
   }, [path]);
 
-  const sendMessage = (message: any) => {
+  const sendMessage = (message: unknown) => {
     if (socketRef.current?.readyState === WebSocket.OPEN) {
       socketRef.current.send(JSON.stringify(message));
     }

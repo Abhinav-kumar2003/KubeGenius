@@ -30,6 +30,7 @@ const radarData = [
 ];
 
 export default function Predictions() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: liveML } = useWebSocket<any>('/ml');
   const [predictionData, setPredictionData] = useState(() => generatePredictionSeries(30, 20));
   const [metrics, setMetrics] = useState(mlMetrics);

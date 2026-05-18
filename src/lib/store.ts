@@ -21,7 +21,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isAuthenticated: false,
   isLoading: false,
-  login: async (email: string, _password: string) => {
+  login: async (email: string) => {
     set({ isLoading: true });
     await new Promise((r) => setTimeout(r, 800));
     set({
@@ -36,7 +36,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     });
     return true;
   },
-  register: async (name: string, email: string, _password: string) => {
+  register: async (name: string, email: string) => {
     set({ isLoading: true });
     await new Promise((r) => setTimeout(r, 800));
     set({
