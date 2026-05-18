@@ -1,6 +1,8 @@
 import { useUIStore, useDashboardStore } from '@/lib/store';
 import { Bell, Search, Terminal, ChevronDown, Server, Clock } from 'lucide-react';
 import { clusters, namespaces } from '@/data/mockData';
+import { UserButton } from '@clerk/clerk-react';
+import { dark } from '@clerk/themes';
 
 export default function Header() {
   const toggleTerminal = useUIStore((s) => s.toggleTerminal);
@@ -94,10 +96,15 @@ export default function Header() {
         </button>
 
         <div className="flex items-center gap-2 ml-2 pl-3 border-l border-white/[0.06]">
-          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-[11px] font-semibold text-white">
-            A
-          </div>
-          <span className="text-[12px] text-white/60">admin</span>
+          <UserButton
+            appearance={{
+              baseTheme: dark,
+              elements: {
+                userButtonAvatarBox: 'w-7 h-7 rounded-full border border-white/[0.08]',
+                userButtonTrigger: 'focus:shadow-none focus:outline-none'
+              }
+            }}
+          />
         </div>
       </div>
     </header>

@@ -1,37 +1,9 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { Cpu, Eye, EyeOff, ArrowRight, Github, Globe } from 'lucide-react';
-import { useAuthStore } from '@/lib/store';
-
-type View = 'login' | 'register';
+import { Cpu } from 'lucide-react';
+import { SignIn } from '@clerk/clerk-react';
+import { dark } from '@clerk/themes';
 
 export default function Login() {
-  const navigate = useNavigate();
-  const { login, register, isLoading } = useAuthStore();
-  const [view, setView] = useState<View>('login');
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-
-    if (view === 'login') {
-      if (!email || !password) { setError('Please fill in all fields'); return; }
-      const success = await login(email, password);
-      if (success) navigate('/');
-    } else {
-      if (!name || !email || !password) { setError('Please fill in all fields'); return; }
-      if (password.length < 6) { setError('Password must be at least 6 characters'); return; }
-      const success = await register(name, email, password);
-      if (success) navigate('/');
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#0C0E14] flex">
       {/* Left Panel */}
@@ -75,116 +47,49 @@ export default function Login() {
       </div>
 
       {/* Right Panel */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex flex-col items-center justify-center p-8 relative">
+        {/* Mobile Logo */}
+        <div className="lg:hidden flex items-center gap-3 mb-8">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+            <Cpu className="w-5 h-5 text-white" />
+          </div>
+          <span className="text-[18px] font-semibold text-white/90">KubeGenius</span>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full max-w-[380px]"
+          className="w-full max-w-[400px] flex justify-center"
         >
-          {/* Mobile Logo */}
-          <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <Cpu className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-[18px] font-semibold text-white/90">KubeGenius</span>
-          </div>
-
-          <h2 className="text-[22px] font-semibold text-white/90 mb-1">
-            {view === 'login' ? 'Welcome back' : 'Create account'}
-          </h2>
-          <p className="text-[13px] text-white/40 mb-6">
-            {view === 'login' ? 'Sign in to your account' : 'Get started with KubeGenius'}
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {view === 'register' && (
-              <div>
-                <label className="text-[11px] text-white/30 block mb-1.5">Full Name</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  className="w-full h-10 px-4 rounded-lg bg-white/[0.03] border border-white/[0.06] text-[13px] text-white/70 placeholder:text-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all"
-                  placeholder="John Doe"
-                />
-              </div>
-            )}
-            <div>
-              <label className="text-[11px] text-white/30 block mb-1.5">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="w-full h-10 px-4 rounded-lg bg-white/[0.03] border border-white/[0.06] text-[13px] text-white/70 placeholder:text-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all"
-                placeholder="admin@company.com"
-              />
-            </div>
-            <div>
-              <label className="text-[11px] text-white/30 block mb-1.5">Password</label>
-              <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="w-full h-10 px-4 pr-10 rounded-lg bg-white/[0.03] border border-white/[0.06] text-[13px] text-white/70 placeholder:text-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all"
-                  placeholder="••••••••"
-                />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/40">
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
-
-            {error && (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[11px] text-red-400">{error}</motion.p>
-            )}
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full h-10 rounded-lg bg-blue-500 text-white text-[13px] font-medium hover:bg-blue-600 disabled:opacity-50 flex items-center justify-center gap-2 transition-all"
-            >
-              {isLoading ? (
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <>
-                  {view === 'login' ? 'Sign In' : 'Create Account'}
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          </form>
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/[0.06]" />
-            </div>
-            <div className="relative flex justify-center">
-              <span className="px-3 text-[11px] text-white/20 bg-[#0C0E14]">or</span>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <button className="w-full h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] text-[12px] text-white/60 hover:bg-white/[0.06] flex items-center justify-center gap-2 transition-all">
-              <Github className="w-4 h-4" />
-              Continue with GitHub
-            </button>
-            <button className="w-full h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] text-[12px] text-white/60 hover:bg-white/[0.06] flex items-center justify-center gap-2 transition-all">
-              <Globe className="w-4 h-4" />
-              Continue with Google
-            </button>
-          </div>
-
-          <p className="text-center text-[12px] text-white/30 mt-6">
-            {view === 'login' ? "Don't have an account? " : 'Already have an account? '}
-            <button
-              onClick={() => { setView(view === 'login' ? 'register' : 'login'); setError(''); }}
-              className="text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              {view === 'login' ? 'Create account' : 'Sign in'}
-            </button>
-          </p>
+          <SignIn
+            routing="virtual"
+            forceRedirectUrl="/"
+            appearance={{
+              baseTheme: dark,
+              variables: {
+                colorPrimary: '#3B82F6', // Tailwind blue-500
+                colorBackground: '#13161F', // Cohesive card background
+                colorText: '#F3F4F6',
+                colorInputBackground: '#1E2330',
+                colorInputText: '#FFFFFF',
+                borderRadius: '0.75rem',
+              },
+              elements: {
+                card: 'border border-white/[0.06] shadow-2xl bg-[#13161F]/80 backdrop-blur-xl w-full',
+                headerTitle: 'text-[20px] font-semibold text-white',
+                headerSubtitle: 'text-[12px] text-white/40',
+                socialButtonsBlockButton: 'bg-white/[0.02] border-white/[0.06] text-white/70 hover:bg-white/[0.05] transition-all hover:text-white',
+                socialButtonsBlockButtonText: 'font-normal text-[12px]',
+                formButtonPrimary: 'bg-blue-500 hover:bg-blue-600 text-white font-medium text-[13px] h-10 transition-all rounded-lg',
+                formFieldInput: 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all h-10 rounded-lg text-[13px]',
+                formFieldLabel: 'text-[11px] text-white/40 font-medium',
+                footerActionLink: 'text-blue-400 hover:text-blue-300 font-medium text-[12px]',
+                dividerText: 'text-[10px] text-white/20 uppercase tracking-wider',
+                dividerLine: 'bg-white/[0.06]',
+              }
+            }}
+          />
         </motion.div>
       </div>
     </div>

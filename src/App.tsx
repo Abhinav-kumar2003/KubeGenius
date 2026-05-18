@@ -1,8 +1,10 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { SignedIn, SignedOut } from '@clerk/clerk-react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import TerminalPanel from '@/components/TerminalPanel';
+import ClerkAuthSync from '@/components/ClerkAuthSync';
 import Login from '@/pages/Login';
 import Dashboard from '@/pages/Dashboard';
 import Clusters from '@/pages/Clusters';
@@ -15,7 +17,7 @@ import Storage from '@/pages/Storage';
 import Alerts from '@/pages/Alerts';
 import Security from '@/pages/Security';
 import Settings from '@/pages/Settings';
-import { useAuthStore, useUIStore } from '@/lib/store';
+import { useUIStore } from '@/lib/store';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const sidebarCollapsed = useUIStore((s) => s.sidebarCollapsed);
@@ -43,36 +45,40 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const location = useLocation();
 
-  if (!isAuthenticated) {
-    return (
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="*" element={<Login />} />
-        </Routes>
-      </AnimatePresence>
-    );
-  }
-
   return (
-    <Layout>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/clusters" element={<Clusters />} />
-          <Route path="/workloads" element={<Workloads />} />
-          <Route path="/predictions" element={<Predictions />} />
-          <Route path="/monitoring" element={<Monitoring />} />
-          <Route path="/cost" element={<Cost />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/storage" element={<Storage />} />
-          <Route path="/alerts" element={<Alerts />} />
-          <Route path="/security" element={<Security />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-      </AnimatePresence>
-    </Layout>
+    <>
+      {/* Background synchronizer to keep Zustand and localStorage in sync with Clerk session */}
+      <ClerkAuthSync />
+
+      <SignedOut>
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="*" element={<Login />} />
+          </Routes>
+        </AnimatePresence>
+      </SignedOut>
+
+      <SignedIn>
+        <Layout>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/clusters" element={<Clusters />} />
+              <Route path="/workloads" element={<Workloads />} />
+              <Route path="/predictions" element={<Predictions />} />
+              <Route path="/monitoring" element={<Monitoring />} />
+              <Route path="/cost" element={<Cost />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/storage" element={<Storage />} />
+              <Route path="/alerts" element={<Alerts />} />
+              <Route path="/security" element={<Security />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </AnimatePresence>
+        </Layout>
+      </SignedIn>
+    </>
   );
 }
