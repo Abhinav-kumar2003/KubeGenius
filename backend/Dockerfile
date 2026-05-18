@@ -23,17 +23,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Python packages from builder
-COPY --from=builder /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
-
-# Copy application code
-COPY app/ ./app/
-COPY models/ ./models/
-
 # Create non-root user
-RUN useradd --create-home --shell /bin/bash app \
-    && chown -R app:app /app
+RUN useradd --create-home --shell /bin/bash app
+
+# Copy Python packages from builder to the app user's home directory
+COPY --from=builder --chown=app:app /root/.local /home/app/.local
+ENV PATH=/home/app/.local/bin:$PATH
+
+# Copy application code with correct ownership
+COPY --chown=app:app app/ ./app/
+COPY --chown=app:app models/ ./models/
+
+# Ensure workspace ownership is set correctly
+RUN chown -R app:app /app
 USER app
 
 # Health check

@@ -90,7 +90,7 @@ async def list_prometheus_targets():
             {"job": "kubernetes-apiservers", "endpoint": "https://10.0.0.1:6443/metrics", "state": "up", "labels": {"instance": "master"}},
             {"job": "kubernetes-nodes", "endpoint": "http://10.0.1.45:10250/metrics", "state": "up", "labels": {"node": "ip-10-0-1-45"}},
             {"job": "kubernetes-pods", "endpoint": "http://10.0.1.45:8080/metrics", "state": "up", "labels": {"pod": "frontend-app"}},
-            {"job": "kube-state-metrics", "endpoint": "http://10.0.0.10:8080/metrics", "state": "up", "labels": {}}},
+            {"job": "kube-state-metrics", "endpoint": "http://10.0.0.10:8080/metrics", "state": "up", "labels": {}},
             {"job": "node-exporter", "endpoint": "http://10.0.1.45:9100/metrics", "state": "up", "labels": {"node": "ip-10-0-1-45"}},
         ]
     }
