@@ -87,6 +87,7 @@ export default function App() {
               <Route path="/alerts" element={<Alerts />} />
               <Route path="/security" element={<Security />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </AnimatePresence>
         </Layout>
