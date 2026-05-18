@@ -1,9 +1,13 @@
 import { motion } from 'framer-motion';
 import { Cpu } from 'lucide-react';
-import { SignIn } from '@clerk/clerk-react';
+import { SignIn, SignUp } from '@clerk/clerk-react';
 import { dark } from '@clerk/themes';
 
-export default function Login() {
+interface LoginProps {
+  mode?: 'signin' | 'signup';
+}
+
+export default function Login({ mode = 'signin' }: LoginProps) {
   return (
     <div className="min-h-screen bg-[#0C0E14] flex">
       {/* Left Panel */}
@@ -62,34 +66,69 @@ export default function Login() {
           transition={{ duration: 0.5 }}
           className="w-full max-w-[400px] flex justify-center"
         >
-          <SignIn
-            routing="virtual"
-            forceRedirectUrl="/"
-            appearance={{
-              baseTheme: dark,
-              variables: {
-                colorPrimary: '#3B82F6', // Tailwind blue-500
-                colorBackground: '#13161F', // Cohesive card background
-                colorText: '#F3F4F6',
-                colorInputBackground: '#1E2330',
-                colorInputText: '#FFFFFF',
-                borderRadius: '0.75rem',
-              },
-              elements: {
-                card: 'border border-white/[0.06] shadow-2xl bg-[#13161F]/80 backdrop-blur-xl w-full',
-                headerTitle: 'text-[20px] font-semibold text-white',
-                headerSubtitle: 'text-[12px] text-white/40',
-                socialButtonsBlockButton: 'bg-white/[0.02] border-white/[0.06] text-white/70 hover:bg-white/[0.05] transition-all hover:text-white',
-                socialButtonsBlockButtonText: 'font-normal text-[12px]',
-                formButtonPrimary: 'bg-blue-500 hover:bg-blue-600 text-white font-medium text-[13px] h-10 transition-all rounded-lg',
-                formFieldInput: 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all h-10 rounded-lg text-[13px]',
-                formFieldLabel: 'text-[11px] text-white/40 font-medium',
-                footerActionLink: 'text-blue-400 hover:text-blue-300 font-medium text-[12px]',
-                dividerText: 'text-[10px] text-white/20 uppercase tracking-wider',
-                dividerLine: 'bg-white/[0.06]',
-              }
-            }}
-          />
+          {mode === 'signin' ? (
+            <SignIn
+              routing="path"
+              path="/sign-in"
+              signUpUrl="/sign-up"
+              forceRedirectUrl="/"
+              appearance={{
+                baseTheme: dark,
+                variables: {
+                  colorPrimary: '#3B82F6', // Tailwind blue-500
+                  colorBackground: '#13161F', // Cohesive card background
+                  colorText: '#F3F4F6',
+                  colorInputBackground: '#1E2330',
+                  colorInputText: '#FFFFFF',
+                  borderRadius: '0.75rem',
+                },
+                elements: {
+                  card: 'border border-white/[0.06] shadow-2xl bg-[#13161F]/80 backdrop-blur-xl w-full',
+                  headerTitle: 'text-[20px] font-semibold text-white',
+                  headerSubtitle: 'text-[12px] text-white/40',
+                  socialButtonsBlockButton: 'bg-white/[0.02] border-white/[0.06] text-white/70 hover:bg-white/[0.05] transition-all hover:text-white',
+                  socialButtonsBlockButtonText: 'font-normal text-[12px]',
+                  formButtonPrimary: 'bg-blue-500 hover:bg-blue-600 text-white font-medium text-[13px] h-10 transition-all rounded-lg',
+                  formFieldInput: 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all h-10 rounded-lg text-[13px]',
+                  formFieldLabel: 'text-[11px] text-white/40 font-medium',
+                  footerActionLink: 'text-blue-400 hover:text-blue-300 font-medium text-[12px]',
+                  dividerText: 'text-[10px] text-white/20 uppercase tracking-wider',
+                  dividerLine: 'bg-white/[0.06]',
+                }
+              }}
+            />
+          ) : (
+            <SignUp
+              routing="path"
+              path="/sign-up"
+              signInUrl="/sign-in"
+              forceRedirectUrl="/"
+              appearance={{
+                baseTheme: dark,
+                variables: {
+                  colorPrimary: '#3B82F6', // Tailwind blue-500
+                  colorBackground: '#13161F', // Cohesive card background
+                  colorText: '#F3F4F6',
+                  colorInputBackground: '#1E2330',
+                  colorInputText: '#FFFFFF',
+                  borderRadius: '0.75rem',
+                },
+                elements: {
+                  card: 'border border-white/[0.06] shadow-2xl bg-[#13161F]/80 backdrop-blur-xl w-full',
+                  headerTitle: 'text-[20px] font-semibold text-white',
+                  headerSubtitle: 'text-[12px] text-white/40',
+                  socialButtonsBlockButton: 'bg-white/[0.02] border-white/[0.06] text-white/70 hover:bg-white/[0.05] transition-all hover:text-white',
+                  socialButtonsBlockButtonText: 'font-normal text-[12px]',
+                  formButtonPrimary: 'bg-blue-500 hover:bg-blue-600 text-white font-medium text-[13px] h-10 transition-all rounded-lg',
+                  formFieldInput: 'bg-white/[0.03] border-white/[0.06] text-white/80 placeholder:text-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all h-10 rounded-lg text-[13px]',
+                  formFieldLabel: 'text-[11px] text-white/40 font-medium',
+                  footerActionLink: 'text-blue-400 hover:text-blue-300 font-medium text-[12px]',
+                  dividerText: 'text-[10px] text-white/20 uppercase tracking-wider',
+                  dividerLine: 'bg-white/[0.06]',
+                }
+              }}
+            />
+          )}
         </motion.div>
       </div>
     </div>

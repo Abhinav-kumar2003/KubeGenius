@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { SignedIn, SignedOut } from '@clerk/clerk-react';
+import { useAuth, SignedIn, SignedOut } from '@clerk/clerk-react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import TerminalPanel from '@/components/TerminalPanel';
@@ -46,6 +46,16 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const location = useLocation();
+  const { isLoaded } = useAuth();
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-[#0C0E14] flex flex-col items-center justify-center gap-4">
+        <div className="w-12 h-12 rounded-full border-4 border-blue-500/10 border-t-blue-500 animate-spin" />
+        <div className="text-[14px] text-white/40 font-medium animate-pulse">Initializing Secure Layer...</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -55,7 +65,9 @@ export default function App() {
       <SignedOut>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
-            <Route path="*" element={<Login />} />
+            <Route path="/sign-in/*" element={<Login mode="signin" />} />
+            <Route path="/sign-up/*" element={<Login mode="signup" />} />
+            <Route path="*" element={<Login mode="signin" />} />
           </Routes>
         </AnimatePresence>
       </SignedOut>
