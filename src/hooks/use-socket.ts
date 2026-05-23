@@ -7,6 +7,7 @@ export function useWebSocket<T>(path: string) {
   const [data, setData] = useState<T | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<Event | null>(null);
+
   const socketRef = useRef<WebSocket | null>(null);
   const retryCountRef = useRef(0);
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -14,7 +15,8 @@ export function useWebSocket<T>(path: string) {
   const pathRef = useRef(path);
   pathRef.current = path;
 
-  const connect = useCallback(() => {
+  // Stable connect function
+  const connect = useCallback(function connect() {
     const url = `${WS_BASE_URL}${pathRef.current}`;
 
     // Clean up any existing socket
@@ -68,14 +70,15 @@ export function useWebSocket<T>(path: string) {
         console.log(
           `WebSocket reconnecting in ${delay}ms (attempt ${retryCountRef.current}/${MAX_RETRIES}): ${url}`
         );
-        retryTimerRef.current = setTimeout(() => {
+
+      retryTimerRef.current = setTimeout(() => {
           if (isMountedRef.current) connect();
         }, delay);
       } else {
         console.warn(`WebSocket max retries reached for: ${url}`);
       }
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     isMountedRef.current = true;
