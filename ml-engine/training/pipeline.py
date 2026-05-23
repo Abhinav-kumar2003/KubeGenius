@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from models.lstm_predictor import LSTMPredictor, AnomalyDetector
+from ml_models.lstm_predictor import LSTMPredictor, AnomalyDetector
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

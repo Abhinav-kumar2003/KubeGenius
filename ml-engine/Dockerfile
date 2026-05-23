@@ -24,12 +24,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Create non-root user
+RUN useradd --create-home --shell /bin/bash ml
+
 # Copy Python packages from builder
-COPY --from=builder /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
+COPY --from=builder --chown=ml:ml /root/.local /home/ml/.local
+ENV PATH=/home/ml/.local/bin:$PATH
 
 # Copy application code
-COPY models/ ./models/
+COPY ml_models/ ./ml_models/
 COPY training/ ./training/
 COPY prediction/ ./prediction/
 COPY data/ ./data/
@@ -37,9 +40,8 @@ COPY data/ ./data/
 # Create model directory
 RUN mkdir -p /app/models
 
-# Create non-root user
-RUN useradd --create-home --shell /bin/bash ml \
-    && chown -R ml:ml /app
+# Set ownership of app files
+RUN chown -R ml:ml /app
 USER ml
 
 # Health check
