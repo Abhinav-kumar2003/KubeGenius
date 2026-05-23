@@ -1,42 +1,58 @@
 # KubeGenius 🚀
 
-AI-powered Kubernetes predictive autoscaling and monitoring platform.
+**AI‑powered Kubernetes predictive autoscaling & monitoring platform**
 
-## Features
-- **AI Traffic Prediction**: LSTM-powered forecasting to anticipate demand.
-- **Real-Time Dashboard**: Live monitoring of CPU, Memory, and Pod distribution.
-- **Intelligent Autoscaling**: Proactive scaling decisions based on AI forecasts.
-- **Cluster Management**: Direct control over deployments, nodes, and namespaces.
-- **Enterprise Security**: Production-ready Clerk authentication featuring seamless Google/GitHub Single Sign-On (SSO), secure email/password access, and automated JWT session token synchronization.
+[![GitHub stars](https://img.shields.io/github/stars/Abhinav-kumar2003/KubeGenius?style=flat-square)](https://github.com/Abhinav-kumar2003/KubeGenius/stargazers)
+[![License](https://img.shields.io/github/license/Abhinav-kumar2003/KubeGenius?style=flat-square)](https://github.com/Abhinav-kumar2003/KubeGenius/blob/main/LICENSE)
 
-## Tech Stack
+---
+
+## ✨ Overview
+KubeGenius combines modern AI techniques with Kubernetes to deliver:
+- **Predictive autoscaling** using LSTM‑based traffic forecasting.
+- **Real‑time observability** of CPU, memory, and pod metrics.
+- **Intelligent scaling decisions** that proactively adjust replica counts before demand spikes.
+- **Secure, enterprise‑grade authentication** via Clerk (Google/GitHub SSO, email/password).
+
+## 🛠️ Tech Stack
 - **Frontend**: React 19, TypeScript, Tailwind CSS, Recharts, `@clerk/clerk-react`
 - **Backend**: FastAPI (Python), WebSocket, SQLAlchemy
-- **ML Engine**: TensorFlow, LSTM Neural Networks
+- **Machine Learning**: TensorFlow, LSTM neural networks
 - **Database**: PostgreSQL, Redis
-- **Infrastructure**: Docker, Kubernetes, Helm, Terraform
+- **Infrastructure**: Docker, Docker‑Compose, Kubernetes, Helm, Terraform
 
-## Environment Configuration
-
-To run the frontend application, create a `.env.local` file in the root directory. This file stores your Clerk authentication credentials locally and is automatically ignored by Git:
-
-```env
-# Clerk Keys (Obtained from dashboard.clerk.com)
-VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
-```
-
-## Installation
-
+## 📦 Installation
 ```bash
 # Clone the repository
 git clone https://github.com/Abhinav-kumar2003/KubeGenius.git
 cd KubeGenius
 
-# Start the full stack with Docker
-docker-compose up -d
+# Create a local environment file for Clerk credentials
+cat > .env.local <<EOF
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+EOF
 
-# Access the platform
-# Frontend: http://localhost:5173
-# Backend API: http://localhost:8000/docs
+# Start the full stack with Docker Compose
+docker-compose up -d
 ```
+The services will be available at:
+- Frontend: http://localhost:5173
+- Backend API docs: http://localhost:8000/docs
+
+## 🚀 Quick Start
+1. **Open the dashboard** (http://localhost:5173) and sign in with your Clerk account.
+2. **Navigate to the "Autoscaling" tab** to view AI‑predicted traffic curves.
+3. **Adjust scaling policies** if you wish to fine‑tune the behaviour.
+
+## 🤝 Contributing
+We welcome contributions! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Reporting bugs or feature requests.
+- Submitting pull requests.
+- Code style and testing requirements.
+
+## 📜 License
+Distributed under the **MIT License**. See [LICENSE](LICENSE) for more information.
+
+---
+*Made with ❤️ by the KubeGenius team.*
