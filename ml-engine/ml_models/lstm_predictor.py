@@ -49,12 +49,12 @@ class LSTMPredictor:
         """Build the LSTM model architecture."""
         inputs = Input(shape=(self.lookback_window, self.feature_dim))
         
-        # Bidirectional LSTM layers
-        x = Bidirectional(LSTM(128, return_sequences=True, activation='tanh'))(inputs)
+        # Bidirectional LSTM layers with reduced size
+        x = Bidirectional(LSTM(64, return_sequences=True, activation='tanh'))(inputs)
         x = Dropout(0.2)(x)
-        x = LSTM(64, return_sequences=True, activation='tanh')(x)
+        x = LSTM(32, return_sequences=True, activation='tanh')(x)
         x = Dropout(0.2)(x)
-        x = LSTM(32, activation='tanh')(x)
+        x = LSTM(16, activation='tanh')(x)
         x = Dropout(0.1)(x)
         
         # Dense layers for output
@@ -352,8 +352,9 @@ class AnomalyDetector:
         self.model = Model(inputs, decoded)
         self.model.compile(optimizer='adam', loss='mse')
     
-    def fit(self, X: np.ndarray, epochs: int = 50, batch_size: int = 32) -> None:
+    def fit(self, X: np.ndarray, epochs: int = 50, batch_size: int = 16) -> None:
         """Train anomaly detector."""
+        # Removed erroneous recursive call
         scaled_X = self.scaler.fit_transform(X.reshape(-1, self.feature_dim)).reshape(X.shape)
         
         history = self.model.fit(

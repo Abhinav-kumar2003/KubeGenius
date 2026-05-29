@@ -96,8 +96,6 @@ Distributed under the **MIT License**. See [LICENSE](LICENSE) for more informati
 ## Contact
 - **GitHub**: [Abhinav-kumar2003](https://github.com/Abhinav-kumar2003)
 - **Issues**: Open an issue on the repository.
-- **Email**: abhinav@example.com
+- **Email**: mohitkrdutta2003@gmail.com
 
----
 
-*Made with ❤️ by the KubeGenius team.*

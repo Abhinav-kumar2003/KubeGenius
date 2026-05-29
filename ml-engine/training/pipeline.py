@@ -48,7 +48,7 @@ class TrainingPipeline:
         )
         
         self.anomaly_detector = AnomalyDetector(
-            lookback_window=lookback_window // 2,
+            lookback_window=lookback_window,
         )
     
     def fetch_metrics_from_prometheus(
